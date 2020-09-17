@@ -1,4 +1,4 @@
-package ar.com.porloschicos.backend.controller.error.Exceptions;
+package ar.com.porloschicos.backend.controller.User.Exceptions;
 
 public class ExceptionAuth extends Exception {
 

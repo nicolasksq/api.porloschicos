@@ -11,6 +11,8 @@ import java.sql.Timestamp;
 @Table(name = "users")
 public class UserDao {
 
+    public UserDao() {}
+
     public UserDao(String username, String password, String email, int du) {
         if(username.isEmpty() || password.isEmpty() || email.isEmpty() || du == 0) {
             throw new IllegalArgumentException("REQUEST_INCOMPLETE");

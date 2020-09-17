@@ -1,6 +1,8 @@
-package ar.com.porloschicos.backend.controller.error;
+package ar.com.porloschicos.backend.controller;
 
-import ar.com.porloschicos.backend.controller.error.Exceptions.ExceptionAuth;
+import ar.com.porloschicos.backend.controller.Authentication.Exceptions.ExceptionAuthInvalidSignature;
+import ar.com.porloschicos.backend.controller.User.Exceptions.ExceptionAuth;
+import ar.com.porloschicos.backend.model.GlobalErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +15,9 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    //@todo SEPARAR EN DIFERENTES HANDLERS POR SERVICES, POR FAVOR LA PUTA QUE TE PARIO
+    // TODO HANDLEAR INVALID CREDENTIAL
+    // TODO HANDLEAR 401 unauthorized
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
@@ -31,6 +36,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.NOT_ACCEPTABLE.value(),
                 ex.getMessage(),
                 ExceptionAuth.ERROR_CODE_DUPLICATE_USER_ENTRY
+        );
+
+        return new ResponseEntity<>(errors, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(ExceptionAuthInvalidSignature.class)
+    public ResponseEntity<GlobalErrorResponse> handleExceptionAuthInvalidSignature(ExceptionAuthInvalidSignature ex, WebRequest request) {
+        GlobalErrorResponse errors = new GlobalErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                ex.getMessage(),
+                ExceptionAuthInvalidSignature.ERROR_CODE_INVALID_SIGNATURE
         );
 
         return new ResponseEntity<>(errors, HttpStatus.NOT_ACCEPTABLE);

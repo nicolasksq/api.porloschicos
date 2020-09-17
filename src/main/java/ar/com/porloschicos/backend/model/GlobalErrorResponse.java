@@ -1,4 +1,4 @@
-package ar.com.porloschicos.backend.controller.error;
+package ar.com.porloschicos.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;

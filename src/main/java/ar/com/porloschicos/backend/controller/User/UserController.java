@@ -1,7 +1,7 @@
 package ar.com.porloschicos.backend.controller.User;
 
 import ar.com.porloschicos.backend.config.JwtTokenUtil;
-import ar.com.porloschicos.backend.controller.error.Exceptions.ExceptionAuth;
+import ar.com.porloschicos.backend.controller.User.Exceptions.ExceptionAuth;
 import ar.com.porloschicos.backend.model.UserDao;
 import ar.com.porloschicos.backend.model.UserDto;
 import ar.com.porloschicos.backend.repository.UserRepository;

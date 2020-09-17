@@ -1,8 +1,8 @@
 package ar.com.porloschicos.backend.controller.Authentication;
 
 import ar.com.porloschicos.backend.config.JwtTokenUtil;
-import ar.com.porloschicos.backend.model.JwtRequest;
-import ar.com.porloschicos.backend.model.JwtResponse;
+import ar.com.porloschicos.backend.controller.Authentication.Exceptions.ExceptionAuthInvalidSignature;
+import ar.com.porloschicos.backend.model.*;
 import ar.com.porloschicos.backend.services.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +35,19 @@ public class JwtAuthenticationController {
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse("OK", token));
+    }
+
+    @RequestMapping(value = "/validate", method = RequestMethod.GET)
+    public ResponseEntity<?> validateJwt(@RequestParam TokenRequest token) throws Exception {
+        System.out.println("AAAAAASDASDADASDASDASASDSDADASDDASDASDASD       " + token.getToken());
+
+        try {
+            Boolean valid = jwtTokenUtil.canTokenBeRefreshed(token.getToken());
+            return ResponseEntity.ok(new Response("OK", valid.toString()));
+        } catch (Exception e) {
+            throw new ExceptionAuthInvalidSignature(e.getMessage(), e);
+        }
     }
 
     private void authenticate(String username, String password) throws Exception {
