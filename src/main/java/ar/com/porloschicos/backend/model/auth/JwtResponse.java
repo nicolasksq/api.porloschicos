@@ -1,4 +1,6 @@
-package ar.com.porloschicos.backend.model;
+package ar.com.porloschicos.backend.model.auth;
+
+import ar.com.porloschicos.backend.model.Response;
 
 public class JwtResponse extends Response {
 

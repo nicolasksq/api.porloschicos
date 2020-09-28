@@ -2,8 +2,8 @@ package ar.com.porloschicos.backend.controller.User;
 
 import ar.com.porloschicos.backend.config.JwtTokenUtil;
 import ar.com.porloschicos.backend.controller.User.Exceptions.ExceptionAuth;
-import ar.com.porloschicos.backend.model.UserDao;
-import ar.com.porloschicos.backend.model.UserDto;
+import ar.com.porloschicos.backend.model.user.UserDao;
+import ar.com.porloschicos.backend.model.user.UserDto;
 import ar.com.porloschicos.backend.repository.UserRepository;
 import ar.com.porloschicos.backend.services.JwtUserDetailsService;
 import com.google.gson.Gson;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
 public class UserController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;

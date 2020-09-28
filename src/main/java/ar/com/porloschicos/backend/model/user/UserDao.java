@@ -1,8 +1,7 @@
-package ar.com.porloschicos.backend.model;
+package ar.com.porloschicos.backend.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

@@ -1,6 +1,6 @@
 package ar.com.porloschicos.backend.repository;
 
-import ar.com.porloschicos.backend.model.UserDao;
+import ar.com.porloschicos.backend.model.user.UserDao;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<UserDao, Integer> {

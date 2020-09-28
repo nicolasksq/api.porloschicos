@@ -1,4 +1,4 @@
-package ar.com.porloschicos.backend.model;
+package ar.com.porloschicos.backend.model.auth;
 
 import java.io.Serializable;
 

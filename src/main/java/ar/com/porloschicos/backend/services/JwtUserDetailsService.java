@@ -1,7 +1,7 @@
 package ar.com.porloschicos.backend.services;
 
-import ar.com.porloschicos.backend.model.UserDao;
-import ar.com.porloschicos.backend.model.UserDto;
+import ar.com.porloschicos.backend.model.user.UserDao;
+import ar.com.porloschicos.backend.model.user.UserDto;
 import ar.com.porloschicos.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
