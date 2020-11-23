@@ -10,10 +10,11 @@ import java.sql.Timestamp;
 @Table(name = "users")
 public class UserDao {
 
-    public UserDao() {}
+    public UserDao() {
+    }
 
     public UserDao(String username, String password, String email, int du) {
-        if(username.isEmpty() || password.isEmpty() || email.isEmpty() || du == 0) {
+        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || du == 0) {
             throw new IllegalArgumentException("REQUEST_INCOMPLETE");
         }
         this.username = username;
@@ -47,7 +48,9 @@ public class UserDao {
     @Column
     private Timestamp created_at;
 
-    public long getId() { return id; }
+    public long getId() {
+        return id;
+    }
 
     public String getUsername() {
         return username;
@@ -65,15 +68,25 @@ public class UserDao {
         this.password = password;
     }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public int getDu() { return du; }
+    public int getDu() {
+        return du;
+    }
 
-    public void setDu(int du) { this.du = du; }
+    public void setDu(int du) {
+        this.du = du;
+    }
 
-    public Timestamp getCreated_at() { return created_at; }
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
 
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;

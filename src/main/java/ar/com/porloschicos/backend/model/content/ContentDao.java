@@ -1,7 +1,6 @@
 package ar.com.porloschicos.backend.model.content;
 
 import ar.com.porloschicos.backend.ContentType.ContentType;
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,10 +17,10 @@ public class ContentDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT",nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(nullable = false)
@@ -42,14 +41,12 @@ public class ContentDao {
     @Column(nullable = false)
     private Timestamp updated_at;
 
-    /**
-     *
-     */
-    public ContentDao() {}
+    public ContentDao() {
+    }
 
     public ContentDao(String title, String content, String images, Integer type) {
 
-        if(title.isEmpty() || content.isEmpty() || images.isEmpty()) {
+        if (title.isEmpty() || content.isEmpty() || images.isEmpty()) {
             throw new IllegalArgumentException("REQUEST_INCOMPLETE");
         }
 
@@ -57,9 +54,15 @@ public class ContentDao {
         this.setContent(content);
         this.setImages(images);
 
-        //seteo los defoult del contenido creado
-        //Por default se pone un tipo de contenido: CAMPANA
-        this.setType(type != null ? type : ContentType.CAMPAING.getId());
+        try {
+            //seteo los defoult del contenido creado
+            //Por default se pone un tipo de contenido: CAMPANA
+            this.setType(type != null ? ContentType.getById(type).getId() : ContentType.CAMPANA.getId());
+        } catch (NullPointerException exception) {
+            //TODO resolve this exception
+        }
+
+        //TODO delete def author 1
         this.setAuthor(1);
         this.setStatus(true);
         this.setCreated_at(new Timestamp(System.currentTimeMillis()));
@@ -71,35 +74,35 @@ public class ContentDao {
 
         this.setId(contentDto.getId());
 
-        if(contentDto.getTitle() != null) {
+        if (contentDto.getTitle() != null) {
             this.setTitle(contentDto.getTitle());
         }
 
-        if(contentDto.getContent() != null) {
+        if (contentDto.getContent() != null) {
             this.setContent(contentDto.getContent());
         }
 
-        if(contentDto.getImages() != null) {
+        if (contentDto.getImages() != null) {
             this.setImages(contentDto.getImages());
         }
 
-        if(contentDto.getType() != null) {
+        if (contentDto.getType() != null) {
             this.setType(contentDto.getType());
         }
 
-        if(contentDto.getAuthor() != null) {
+        if (contentDto.getAuthor() != null) {
             this.setAuthor(contentDto.getAuthor());
         }
 
-        if(contentDto.getStatus() != null) {
+        if (contentDto.getStatus() != null) {
             this.setStatus(contentDto.getStatus());
         }
 
-        if(contentDto.getUpdated_at() != null) {
+        if (contentDto.getUpdated_at() != null) {
             this.setUpdated_at(contentDto.getUpdated_at());
         }
 
-        if(contentDto.getCreated_at() != null) {
+        if (contentDto.getCreated_at() != null) {
             this.setCreated_at(contentDto.getCreated_at());
         }
 

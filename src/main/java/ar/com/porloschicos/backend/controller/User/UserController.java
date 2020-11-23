@@ -35,15 +35,14 @@ public class UserController {
         Gson gson = new Gson();
         String json = gson.toJson(user);
 
-        return  json;
+        return json;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody @Validated UserDto user) throws Exception {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(userDetailsService.save(user));
-        }
-        catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new ExceptionAuth(e.getMostSpecificCause().getMessage(), e);
         } catch (Exception e) {
             throw new NullPointerException();

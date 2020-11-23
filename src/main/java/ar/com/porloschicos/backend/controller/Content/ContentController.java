@@ -4,8 +4,6 @@ import ar.com.porloschicos.backend.controller.Content.Exceptions.ExceptionConten
 import ar.com.porloschicos.backend.controller.User.Exceptions.ExceptionAuth;
 import ar.com.porloschicos.backend.model.content.ContentDto;
 import ar.com.porloschicos.backend.services.ContentService;
-import com.google.gson.Gson;
-import com.oracle.tools.packager.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -15,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000/", allowedHeaders = "*")
 public class ContentController {
 
     @Autowired
@@ -42,10 +41,10 @@ public class ContentController {
         }
     }
 
-    @RequestMapping(value = "/content/{type}/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/content/{type}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getContent(@PathVariable("type") String type, @PathVariable("id") Long id) throws Exception {
         try {
-            return ResponseEntity.status(HttpStatus.FOUND).body(contentService.getContentByIdAndType(id,type));
+            return ResponseEntity.status(HttpStatus.OK).body(contentService.getContentByIdAndType(id, type));
         } catch (ExceptionContent e) {
             throw e;
         } catch (Exception e) {
@@ -53,10 +52,10 @@ public class ContentController {
         }
     }
 
-    @RequestMapping(value = "/content/{type}/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/content/{type}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getContent(@PathVariable("type") String type) throws Exception {
         try {
-            return ResponseEntity.status(HttpStatus.FOUND).body(contentService.getAllContentByType(type));
+            return ResponseEntity.status(HttpStatus.OK).body(contentService.getAllContentByType(type));
         } catch (ExceptionContent e) {
             throw e;
         } catch (Exception e) {
@@ -67,7 +66,7 @@ public class ContentController {
     @RequestMapping(value = "/content/{type}/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteContent(@PathVariable("type") String type, @PathVariable("id") Long id) throws Exception {
         try {
-            return ResponseEntity.status(HttpStatus.FOUND).body(contentService.deleteContentById(id,type));
+            return ResponseEntity.status(HttpStatus.OK).body(contentService.deleteContentById(id, type));
         } catch (ExceptionContent e) {
             throw e;
         } catch (Exception e) {
