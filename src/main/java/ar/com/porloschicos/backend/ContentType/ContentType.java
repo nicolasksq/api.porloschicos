@@ -4,7 +4,6 @@ public enum ContentType {
 
     CAMPANA("campana", 1),
     PROYECTO("proyecto", 2),
-    COMEDOR("comedor", 3),
     NOVEDADES("novedades", 4);
 
     private String type;
