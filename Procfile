@@ -1,1 +1,1 @@
-web: java -cp target/classes/:target/dependency/* com.wedevol.xmpp.EntryPoint
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* ar.com.porloschicos.backend.BackendApplication
