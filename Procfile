@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -cp target/classes:target/dependency/*
+web: java -cp target/classes/:target/dependency/* com.wedevol.xmpp.EntryPoint
