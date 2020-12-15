@@ -7,7 +7,6 @@ import ar.com.porloschicos.backend.model.user.UserDto;
 import ar.com.porloschicos.backend.repository.UserRepository;
 import ar.com.porloschicos.backend.services.JwtUserDetailsService;
 import com.google.gson.Gson;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@Slf4j
 public class UserController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -32,10 +30,7 @@ public class UserController {
 
     @RequestMapping(value = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String me(HttpServletRequest request) {
-        log.debug(request.toString());
         String[] token = request.getHeader("Authorization").split(" ");
-        log.debug(token.toString());
-
         UserDao user = getUserFromToken(token[1]);
         Gson gson = new Gson();
         String json = gson.toJson(user);
