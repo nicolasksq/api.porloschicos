@@ -1,18 +1,26 @@
 package ar.com.porloschicos.backend.model.auth;
 
-import ar.com.porloschicos.backend.model.Response;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
-public class JwtResponse extends Response {
+@Getter
+public class JwtResponse {
 
-    private static final long serialVersionUID = -8091879091924046844L;
+    private final String status;
+
+    @JsonProperty("token")
     private final String jwtToken;
+    private String error;
 
     public JwtResponse(String status, String jwtToken) {
-        super(status);
-        this.jwtToken = jwtToken;
+        this.jwtToken   = jwtToken;
+        this.status     = status;
     }
 
-    public String getToken() {
-        return this.jwtToken;
+    public JwtResponse(String status, String jwtToken, String error) {
+        this.status     = status;
+        this.jwtToken   = jwtToken;
+        this.error      = error;
     }
 }

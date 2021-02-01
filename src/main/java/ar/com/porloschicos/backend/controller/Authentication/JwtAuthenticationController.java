@@ -1,17 +1,15 @@
 package ar.com.porloschicos.backend.controller.Authentication;
 
 import ar.com.porloschicos.backend.config.JwtTokenUtil;
-import ar.com.porloschicos.backend.controller.Authentication.Exceptions.ExceptionAuthInvalidSignature;
 import ar.com.porloschicos.backend.model.*;
 import ar.com.porloschicos.backend.model.auth.JwtRequest;
 import ar.com.porloschicos.backend.model.auth.JwtResponse;
-import ar.com.porloschicos.backend.services.JwtUserDetailsService;
+import ar.com.porloschicos.backend.model.TokenRequest;
+import ar.com.porloschicos.backend.services.JwtService;
+import ar.com.porloschicos.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,43 +18,33 @@ import org.springframework.web.bind.annotation.*;
 public class JwtAuthenticationController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private JwtUserDetailsService userDetailsService;
+    private JwtService jwtService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest jwtRequest) {
+        ResponseEntity<?> response;
+        try {
+            jwtService.validate(jwtRequest);
+            UserDetails user =
+                    userService.loadUserByUsername(jwtRequest.getUsername());
+            response = ResponseEntity.ok(new JwtResponse("OK", jwtTokenUtil.generateToken(user)));
+        }catch (Exception e) {
+            response = ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new JwtResponse("FAIL", null, e.getMessage()));
+        }
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse("OK", token));
+        return response;
     }
 
     @RequestMapping(value = "/validate", method = RequestMethod.GET)
-    public ResponseEntity<?> validateJwt(@RequestParam TokenRequest token) throws Exception {
-        try {
-            Boolean valid = jwtTokenUtil.canTokenBeRefreshed(token.getToken());
-            return ResponseEntity.ok(new Response("OK", valid.toString()));
-        } catch (Exception e) {
-            throw new ExceptionAuthInvalidSignature(e.getMessage(), e);
-        }
-    }
-
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
+    public ResponseEntity<?> validateJwt(@RequestParam TokenRequest token) {
+        return ResponseEntity.ok(
+                new Response("OK", jwtTokenUtil.canTokenBeRefreshed(token.getToken()).toString()));
     }
 }
